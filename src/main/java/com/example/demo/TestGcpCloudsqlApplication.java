@@ -1,11 +1,13 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.Entity;
@@ -65,8 +67,17 @@ interface PhotoRepository extends JpaRepository<Photo, String> {}
 @RestController
 class PhotoController {
 
+	@Autowired
+	private PhotoRepository photoRepository;
+
 	@GetMapping("/")
 	public String hello_spring() {
 		return "Hello! I am from Spring Boot";
+	}
+
+	@PostMapping("/upload")
+	public Photo upload(@RequestBody Photo photo) {
+		photoRepository.save(photo);
+		return photo;
 	}
 }
