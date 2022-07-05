@@ -90,4 +90,14 @@ class PhotoController {
 		Photo selectedPhoto = photoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sorry we couldn't find your Photo!"));
 		return ResponseEntity.ok().body(selectedPhoto);
 	}
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> delete(@PathVariable String id) {
+		try {
+			photoRepository.deleteById(id);
+			return ResponseEntity.ok().body("Photo Deleted!");
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("Couldn't find Photo!");
+		}
+	}
 }
