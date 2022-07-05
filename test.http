@@ -1,9 +1,1 @@
-POST localhost:8080/upload
-Content-Type: application/json
-
-{
-  "id": "1",
-  "uri": "cloud bucket uri",
-  "labels": "nothing"
-}
-
+GET localhost:8080/open/7

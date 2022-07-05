@@ -5,14 +5,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Optional;
 
 @SpringBootApplication
 public class TestGcpCloudsqlApplication {
@@ -76,8 +74,18 @@ class PhotoController {
 	}
 
 	@PostMapping("/upload")
-	public Photo upload(@RequestBody Photo photo) {
-		photoRepository.save(photo);
-		return photo;
+	public String upload(@RequestBody Photo photo) {
+		if (photo.getId() != null && photo.getUri() != null && photo.getLabels() != null) {
+			photoRepository.save(photo);
+			return "Photo Uploaded Successfully!";
+		} else {
+			return "Not Accepted!";
+		}
+	}
+
+	@GetMapping("/open/{id}")
+	public Optional<Photo> view(@PathVariable String id) {
+		Optional<Photo> selectedPhoto = photoRepository.findById(id);
+		return selectedPhoto;
 	}
 }
