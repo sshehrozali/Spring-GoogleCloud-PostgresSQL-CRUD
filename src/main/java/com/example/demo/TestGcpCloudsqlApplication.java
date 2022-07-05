@@ -76,12 +76,12 @@ class PhotoController {
 	}
 
 	@PostMapping("/upload")
-	public String upload(@RequestBody Photo photo) {
+	public ResponseEntity<String> upload(@RequestBody Photo photo) throws ResourceNotFoundException {
 		if (photo.getId() != null && photo.getUri() != null && photo.getLabels() != null) {
 			photoRepository.save(photo);
-			return "Photo Uploaded Successfully!";
+			return ResponseEntity.ok().body("Photo Uploaded!");
 		} else {
-			return "Not Accepted!";
+			return ResponseEntity.badRequest().body("Not Accepted!");
 		}
 	}
 
