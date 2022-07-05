@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
@@ -84,8 +86,8 @@ class PhotoController {
 	}
 
 	@GetMapping("/open/{id}")
-	public Optional<Photo> view(@PathVariable String id) {
-		Optional<Photo> selectedPhoto = photoRepository.findById(id);
-		return selectedPhoto;
+	public ResponseEntity<Photo> view(@PathVariable String id) throws ResourceNotFoundException {
+		Photo selectedPhoto = photoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sorry we couldn't find your Photo!"));
+		return ResponseEntity.ok().body(selectedPhoto);
 	}
 }
