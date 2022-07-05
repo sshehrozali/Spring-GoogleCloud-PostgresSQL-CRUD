@@ -2,6 +2,11 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -53,5 +58,15 @@ class Photo {
 		this.labels = labels;
 	}
 	public Photo() {
+	}
+}
+@Repository
+interface PhotoRepository extends JpaRepository<Photo, String> {}
+@RestController
+class PhotoController {
+
+	@GetMapping("/")
+	public String hello_spring() {
+		return "Hello! I am from Spring Boot";
 	}
 }
